@@ -13,6 +13,7 @@ const demographicSchema = new mongoose.Schema({
     hair_color: String,
     eye_color: String,
     skin_color: String,
+    gender: String
   },
 });
 
