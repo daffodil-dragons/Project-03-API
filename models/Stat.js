@@ -2,14 +2,12 @@ const mongoose = require("../connection");
 
 const statSchema = new mongoose.Schema({
   hp: Number,
-  stats: {
-    strength: Number,
-    dexterity: Number,
-    constitution: Number,
-    intelligence: Number,
-    wisdom: Number,
-    charisma: Number,
-  },
+  strength: Number,
+  dexterity: Number,
+  constitution: Number,
+  intelligence: Number,
+  wisdom: Number,
+  charisma: Number,
   // saving_throws: {
   //   strength: Number,
   //   dexterity: Number,
