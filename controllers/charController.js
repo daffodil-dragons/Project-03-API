@@ -5,7 +5,8 @@ const Character = require('./../models/Character');
 
 //FIND ALL CHARACTERS
 router.get('/', (req,res) => {
-    Character.find().then((allChar) =>{
+    Character.find().populate("stats")
+    .then((allChar) =>{
         res.json({
             status: 200,
             Characters: allChar})
@@ -13,7 +14,7 @@ router.get('/', (req,res) => {
 })
 //FIND SINGLE CHARACTER BY NAME
 router.get('/find/:name', (req,res) =>{
-    Character.findOne({name: req.params.name})
+    Character.findOne({name: req.params.name}).populate("stats")
         .then((oneChar)=>{
             res.json({
                 status: 200,
@@ -28,7 +29,7 @@ router.post('/create', (req,res) =>{
         .then((newChar) => {
             res.json({
                 status: 200,
-                New: newChar
+                New: newChar,
             })
         })
 })
@@ -36,6 +37,7 @@ router.post('/create', (req,res) =>{
 //UPDATE A CHARACTER
 router.put('/update/:name', (req,res) =>{
     Character.findOneAndUpdate({name: req.params.name}, req.body, {new:true})
+        .populate("stats")
         .then((oneChar)=>{
             res.json({
                 status: 200,
