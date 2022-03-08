@@ -19,4 +19,5 @@ const statSchema = new mongoose.Schema({
   // armor_class: Number,
 });
 
-module.exports = mongoose.model("Stat", statSchema);
+// module.exports = mongoose.model("Stat", statSchema);
+module.exports = statSchema;
