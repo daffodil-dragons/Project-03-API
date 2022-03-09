@@ -2,11 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 const Character = require("./../models/Character");
+const Spell = require("../models/Spell");
 
 //FIND ALL CHARACTERS
 router.get("/", (req, res) => {
   Character.find()
-    .populate("stats")
+    .populate("spells")
     .then((allChar) => {
       res.json({
         status: 200,
@@ -17,7 +18,7 @@ router.get("/", (req, res) => {
 //FIND SINGLE CHARACTER BY NAME
 router.get("/find/:name", (req, res) => {
   Character.findOne({ name: req.params.name })
-    .populate("stats")
+    .populate("spells")
     .then((oneChar) => {
       res.json({
         status: 200,
@@ -39,13 +40,26 @@ router.post("/create", (req, res) => {
 //UPDATE A CHARACTER
 router.put("/update/:name", (req, res) => {
   Character.findOneAndUpdate({ name: req.params.name }, req.body, { new: true })
-    .populate("stats")
+    .populate("spells")
     .then((oneChar) => {
       res.json({
         status: 200,
         Character: oneChar,
       });
     });
+});
+
+// UPDATE A CHARACTERS SPELLS
+router.put("/update/:charName/spell/:spellName", async (req, res) => {
+  const char = await Character.findOne({
+    name: req.params.charName,
+  }).populate("spells");
+  const spell = await Spell.findOne({
+    name: req.params.spellName,
+  });
+  char.spells.push(spell);
+  char.save();
+  res.json({ status: 200, Character: char });
 });
 
 //DELETE A CHARACTER
