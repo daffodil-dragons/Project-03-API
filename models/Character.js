@@ -22,6 +22,12 @@ const characterSchema = new mongoose.Schema({
   class: String,
   level: Number,
   stats: statSchema,
+  spells: [
+    {
+      ref: "Spell",
+      type: mongoose.Schema.Types.ObjectId,
+    },
+  ],
 });
 
 module.exports = mongoose.model("Character", characterSchema);

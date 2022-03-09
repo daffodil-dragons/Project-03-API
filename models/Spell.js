@@ -2,8 +2,8 @@ const mongoose = require("../connection");
 
 const spellSchema = new mongoose.Schema({
   name: String,
+  level: Number,
   description: String,
-  damage: String,
   prepared: Boolean,
 });
 
