@@ -37,29 +37,30 @@ As a user I want to use an app to create a D&D character sheet, so that I can ea
 
 | Component               | Priority | Estimated Time | Actual Time |
 | ----------------------- | :------: | :------------: | :---------: |
-| Server connection       |    H     |     0.5hrs     |             |
-| Database connection     |    H     |     0.5hrs     |             |
-| Schemas/Models creation |    H     |      1hrs      |             |
-| Controllers             |    H     |      2hrs      |             |
-| Deployment              |    H     |      2hrs      |             |
-| Total                   |          |      6hrs      |             |
+| Server connection       |    H     |     0.5hrs     |  <0.5 hrs   |
+| Database connection     |    H     |     0.5hrs     |  <0.5 hrs   |
+| Schemas/Models creation |    H     |      1hrs      |    2 hrs    |
+| Controllers             |    H     |      2hrs      |    2 hrs    |
+| Deployment              |    H     |      2hrs      |   .5 hrs    |
+| Total                   |          |      6hrs      |   5.5 hrs   |
 
 ##### PostMVP Time Frame
 
 | Component       | Priority | Estimated Time | Actual Time |
 | --------------- | :------: | :------------: | :---------: |
-| Equipment Model |    M     |      1hrs      |             |
+| Equipment Model |    M     |      1hr      |             |
+| Spell Model & controllers   |    M     |      1hr      |     1 hr        |
 | Items Model     |    M     |      1hrs      |             |
 | Controllers     |    M     |      2hrs      |             |
 | Total           |          |      4hrs      |             |
 
 ## Additional Libraries
 
-Libraries will go here
+N/A
 
 ## Sources
 
-Sources will go here
+N/A
 
 ## Code Snippet
 
@@ -67,4 +68,24 @@ Code snippet will go here
 
 ```js
 
+const mongoose = require("../connection");
+const statSchema = require("./Stat");
+
+const characterSchema = new mongoose.Schema({
+  name: String,
+  demographic: String,
+  class: String,
+  level: Number,
+  stats: statSchema,
+  spells: [
+    {
+      ref: "Spell",
+      type: mongoose.Schema.Types.ObjectId,
+    },
+  ],
+});
+
+module.exports = mongoose.model("Character", characterSchema);
+
 ```
+The above code was interesting to figure out since we ended up having to create a model that uses a schema as a schema and a schema as a model for reference. We had to create the stats at the same time as the character and it was giving us problems if we tried to reference the model instead.
